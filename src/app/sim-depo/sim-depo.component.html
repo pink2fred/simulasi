@@ -1,0 +1,77 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="home"></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            Simulasi Deposito
+        </ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="presentHistory()">
+                <ion-icon name="timer"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list>
+        <ion-radio-group appNextFocus tabindex="0" [(ngModel)]="jw">
+            <ion-list-header color="tertiary">
+                <ion-label><strong>Jenis Deposito</strong></ion-label>
+            </ion-list-header>
+
+            <ion-item color="tertiary">
+                <ion-label>1 Bulan</ion-label>
+                <ion-radio color="warning" slot="start" value="1"></ion-radio>
+            </ion-item>
+
+            <ion-item color="tertiary">
+                <ion-label>3 Bulan</ion-label>
+                <ion-radio color="warning" slot="start" value="3"></ion-radio>
+            </ion-item>
+
+            <ion-item color="tertiary">
+                <ion-label>6 Bulan</ion-label>
+                <ion-radio color="warning" slot="start" value="6"></ion-radio>
+            </ion-item>
+        </ion-radio-group>
+    </ion-list>
+
+    <ion-item>
+        <ion-label position="floating">Nama</ion-label>
+        <ion-input appNextFocus tabindex="1" name="inpNama" class="ion-text-uppercase" [(ngModel)]="nama"></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="stacked">Tanggal Penempatan</ion-label>
+        <ion-datetime appNextFocus tabindex="2" name="dpMulai" display-format="D MMM YYYY" max="2100-12-31" picker-format="MMM DD YYYY" [(ngModel)]="tglMulai">
+        </ion-datetime>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="floating">Nominal</ion-label>
+        <ion-input appNextFocus tabindex="3" [disabled]="jw == null" name="inpNom" type="number" (ionChange)="nomChange()" [(ngModel)]="nominal"></ion-input>
+    </ion-item>
+
+    <ion-item *ngIf="sb != undefined">
+        <ion-label position="floating">Suku Bunga Counter Rate (% p.a)</ion-label>
+        <ion-input appNextFocus type="number" readonly tabindex="-1" [ngModel]="sb.sb"></ion-input>
+    </ion-item>
+
+    <ion-item *ngIf="sb != undefined">
+        <ion-label position="floating">Add On Special Rate (% p.a)</ion-label>
+        <ion-input appNextFocus tabindex="4" name="inpAddon" type="number" [(ngModel)]="addon"></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label class="text-right">{{ isPajak ? "Kena Pajak" : "Tidak Kena Pajak" }}
+        </ion-label>
+        <ion-toggle appNextFocus tabindex="5" slot="end" [(ngModel)]="isPajak" color="tertiary"></ion-toggle>
+    </ion-item><br />
+
+    <br />
+    <ion-button shape="round" [disabled]="btnDisabled()" (click)="presentConfirm()" color="primary" expand="full">Hitung</ion-button>
+    <ion-button shape="round" [disabled]="btnDisabled()" (click)="simpan()" color="secondary" expand="full">Simpan ke Riwayat
+    </ion-button>
+</ion-content>

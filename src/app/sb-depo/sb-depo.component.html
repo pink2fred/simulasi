@@ -1,0 +1,55 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="home" color="primary"></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            Suku Bunga Deposito
+        </ion-title>
+    </ion-toolbar>
+</ion-header><br>
+
+<ion-content>
+    <h5 class="ml-2">Pilih jenis deposito untuk melihat</h5>
+    <ion-segment color="tertiary" (ionChange)="tabChange($event)">
+        <ion-segment-button value="1">
+            <ion-label>1 Bulan</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="3">
+            <ion-label>3 Bulan</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="6">
+            <ion-label>6 Bulan</ion-label>
+        </ion-segment-button>
+    </ion-segment><br>
+
+    <ion-title *ngIf="sbDepos.length> 0 || newSb.length > 0">Suku Bunga {{jns== 1 ? "Deposito 1 Bulan" : jns== 3 ? "Deposito 3 Bulan" : "Deposito 6 Bulan"}}</ion-title>
+    <div *ngIf="sbDepos.length> 0">
+        <ion-item *ngFor="let item of sbDepos; let i= index">
+            <ion-label style="width: 180px;">Rp. {{i == 0 ? 1 : (sbDepos[i-1].nominal + 1 | number: "1.0-0")}}</ion-label>&nbsp;
+            <ion-label style="width: 54px">s/d Rp. </ion-label>&nbsp;
+            <ion-input appNextFocus tabindex="{{i+i}}" style="max-width: 160px;background-color: aqua;" type="number" [(ngModel)]="item.nominal" (ngModelChange)="nomChange2(i)"></ion-input>
+            &nbsp;
+            <ion-label>=</ion-label>&nbsp;
+            <ion-input appNextFocus tabindex="{{i+(i+1)}}" style="max-width: 70px;background-color: yellowgreen;" class="text-center" type="number" [(ngModel)]="item.sb">
+            </ion-input>&nbsp;
+            <ion-label>% p.a</ion-label>
+        </ion-item>
+    </div>
+    <div *ngIf="newSb.length> 0">
+        <ion-item *ngFor="let item of newSb; let i= index">
+            <ion-label style="width: 180px;">
+                Rp. {{sbDepos.length > 0 && i == 0 ? (sbDepos[sbDepos.length-1].nominal + 1 | number: "1.0-0") : i > 0 ? (newSb[i-1].nominal + 1 | number: "1.0-0") : 1}}
+            </ion-label>
+            &nbsp;
+            <ion-label style="width: 54px">s/d Rp. </ion-label>&nbsp;
+            <ion-input appNextFocus tabindex="{{sbDepos.length> 0 ? i+((sbDepos.length+i)*2) : i+i}}" style="max-width: 160px;background-color: aqua;" type="number" [(ngModel)]="item.nominal" (ngModelChange)="nomChange(i)"></ion-input>
+            &nbsp;
+            <ion-label>=</ion-label>&nbsp;
+            <ion-input appNextFocus tabindex="{{sbDepos.length> 0 ? i+((sbDepos.length+i)*2)+1 : i+(i+1)}}" style="max-width: 70px;background-color: yellowgreen;" class="text-center" type="number" [(ngModel)]="item.sb">
+            </ion-input>&nbsp;
+            <ion-label>% p.a</ion-label>&nbsp;&nbsp;
+        </ion-item><br>
+    </div>
+    <ion-button *ngIf="sbDepos.length> 0 || newSb.length > 0" shape="round" color="primary" (click)="update()" expand="full">Update</ion-button>
+</ion-content>

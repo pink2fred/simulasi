@@ -1,0 +1,280 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Hasil Simulasi {{ jns }}</ion-title>
+        <ion-button shape="round" (click)="closeModal()" color="light" slot="end">
+            <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list inset>
+        <ion-list-header>
+            <h4>Data Pokok</h4>
+        </ion-list-header>
+        <ion-item>
+            <ion-label>Nama</ion-label>
+            <ion-label slot="end">{{ nama | uppercase }}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Tgl. Lahir</ion-label>
+            <ion-label slot="end">{{ tglLhr | date: "dd MMM yyyy" }}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Usia</ion-label>
+            <ion-label slot="end">{{ umur + " Tahun" }}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>{{ jns == "Kredit Pegawai" ? "Usia Pensiun" : "Batas Usia Max." }}
+            </ion-label>
+            <ion-label slot="end">{{ umurPensiun + " Tahun" }}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Gaji</ion-label>
+            <ion-label slot="end">Rp. {{ gaji | number: "1.0-0" }}</ion-label>
+        </ion-item>
+        <ion-item *ngIf="jns == 'Kredit Pegawai'">
+            <ion-label>Penghasilan Tambahan</ion-label>
+            <ion-label slot="end">Rp. {{ honor | number: "1.0-0" }}</ion-label>
+        </ion-item><br />
+
+        <ion-list-header>
+            <h4>Data Kredit</h4>
+        </ion-list-header>
+        <ion-item>
+            <ion-label>Periode Kredit</ion-label>
+            <ion-label slot="end">{{ (tglMulai | date: "dd MMM yyyy") + " s/d " + (tglJt | date: "dd MMM yyyy") }}
+            </ion-label>
+        </ion-item>
+        <ion-item color="primary">
+            <ion-label>Plafon</ion-label>
+            <ion-label slot="end">Rp. {{ plafon | number: "1.0-0" }}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Jangka Waktu</ion-label>
+            <ion-label slot="end">{{ jw + " Bulan (" + (jw - (jw % 12)) / 12 + " Tahun " + (jw % 12) + " Bulan)" }}
+            </ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Suku Bunga Flat</ion-label>
+            <ion-label slot="end">{{ sb.sb + "% p.a" }}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Suku Bunga Efektif</ion-label>
+            <ion-label slot="end">{{ sbEff + "% p.a" }}</ion-label>
+        </ion-item>
+        <ion-item color="success">
+            <ion-label style="color:black;">Angsuran/Bulan</ion-label>
+            <ion-label style="color:black;" slot="end">Rp. {{ angs | number: "1.0-0" }}
+            </ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Persentase Angsuran</ion-label>
+            <ion-label slot="end">{{ ((angs / gaji) * 100 | number: "1.2-2") + "% dari Gaji" }}
+            </ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Sisa Gaji</ion-label>
+            <ion-label slot="end">Rp. {{ gaji - angs | number: "1.0-0" }}
+            </ion-label>
+        </ion-item><br />
+
+        <ion-list-header>
+            <h4>Potongan Kredit</h4>
+        </ion-list-header>
+        <ion-item>
+            <ion-label>Provisi</ion-label>
+            <ion-label slot="end">Rp. {{ provisi | number: "1.0-0" }}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Administrasi</ion-label>
+            <ion-label slot="end">Rp. {{ adm | number: "1.0-0" }}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Asuransi</ion-label>
+            <ion-label slot="end">Rp. {{ asuransi | number: "1.0-0" }}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Angsuran Maju 1 Bulan</ion-label>
+            <ion-label slot="end">Rp. {{ angsMaju | number: "1.0-0" }}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Pelunasan Top Up/Take Over</ion-label>
+            <ion-label slot="end">Rp. {{ pelunasan | number: "1.0-0" }}</ion-label>
+        </ion-item>
+        <ion-item color="tertiary">
+            <ion-label>Bersih Diterima</ion-label>
+            <ion-label slot="end">Rp. {{ plafon - (provisi + adm + asuransi + pelunasan + angsMaju) | number: "1.0-0" }}
+            </ion-label>
+        </ion-item>
+    </ion-list>
+</ion-content>
+
+<!-- SHARE CONTENT -->
+<div *ngIf="dispShare" style="font-size: 16px; background-color: white;width: 720px;" #result id="result">
+    <div style="background-color: #3880ff;" class="p-2">
+        <div class="row">
+            <div class="col-9">
+                <!-- style="position: absolute;top:50%;transform: translate(0,-50%);-webkit-transform: translate(0,-50%)" -->
+                <h4 style="font-size: 1.875rem; color: white">Simulasi {{ jns }}</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-3">
+        <h5 style="font-size: 1.5rem;">Data Pokok</h5>
+        <br />
+        <div class="row">
+            <div class="col-6">Nama</div>
+            <div class="col-6">{{ nama | uppercase }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Tgl. Lahir</div>
+            <div class="col-6">{{ tglLhr | date: "dd MMM yyyy" }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Usia</div>
+            <div class="col-6">{{ umur + " Tahun" }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">
+                {{ jns == "Kredit Pegawai" ? "Usia Pensiun" : "Batas Usia Max." }}
+            </div>
+            <div class="col-6">{{ umurPensiun + " Tahun" }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Gaji</div>
+            <div class="col-6">Rp. {{ gaji | number: "1.0-0" }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6" *ngIf="jns == 'Kredit Pegawai'">
+                Penghasilan Tambahan
+            </div>
+            <div class="col-6" *ngIf="jns == 'Kredit Pegawai'">
+                Rp. {{ honor | number: "1.0-0" }}
+            </div>
+            <div class="col-12" *ngIf="jns == 'Kredit Pegawai'">
+                <hr />
+            </div>
+        </div>
+
+        <h5 style="font-size: 1.5rem;">Data Kredit</h5>
+        <br />
+        <div class="row">
+            <div class="col-6">Periode Kredit</div>
+            <div class="col-6">
+                {{ (tglMulai | date: "dd MMM yyyy") + " s/d " + (tglJt | date: "dd MMM yyyy") }}
+            </div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Plafon</div>
+            <div class="col-6">Rp. {{ plafon | number: "1.0-0" }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Jangka Waktu</div>
+            <div class="col-6">
+                {{ jw + " Bulan (" + (jw - (jw % 12)) / 12 + " Tahun " + (jw % 12) + " Bulan)" }}
+            </div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Suku Bunga Flat</div>
+            <div class="col-6">{{ sb.sb + "% p.a" }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Suku Bunga Efektif</div>
+            <div class="col-6">{{ sbEff + "% p.a" }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Suku Bunga Efektif</div>
+            <div class="col-6">{{ sbEff + "% p.a" }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Angsuran/Bulan</div>
+            <div class="col-6">Rp. {{ angs | number: "1.0-0" }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Persentase Angsuran</div>
+            <div class="col-6">
+                {{ ((angs / gaji) * 100 | number: "1.2-2") + "% dari Gaji" }}
+            </div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Sisa Gaji</div>
+            <div class="col-6">Rp. {{ gaji - angs | number: "1.0-0" }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+        </div>
+
+        <h5 style="font-size: 1.5rem;">Potongan Kredit</h5>
+        <br />
+        <div class="row">
+            <div class="col-6">Provisi</div>
+            <div class="col-6">Rp. {{ provisi | number: "1.0-0" }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Administrasi</div>
+            <div class="col-6">Rp. {{ adm | number: "1.0-0" }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Asuransi</div>
+            <div class="col-6">Rp. {{ asuransi | number: "1.0-0" }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Angsuran Maju 1 Bulan</div>
+            <div class="col-6">Rp. {{ angsMaju | number: "1.0-0" }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Pelunasan Top Up / Take Over</div>
+            <div class="col-6">Rp. {{ pelunasan | number: "1.0-0" }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Bersih Diterima</div>
+            <div class="col-6">
+                Rp. {{ plafon - (provisi + adm + asuransi + pelunasan + angsMaju) | number: "1.0-0" }}
+            </div>
+            <div class="col-12">
+                <hr />
+            </div>
+        </div>
+    </div>
+</div>
+
+<ion-button shape="round" (click)="share()" color="secondary" expand="full"><b>Share</b>
+</ion-button>

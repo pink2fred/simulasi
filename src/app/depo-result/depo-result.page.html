@@ -1,0 +1,151 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Simulasi Deposito {{ jw }} Bulan</ion-title>
+        <ion-button shape="round" (click)="closeModal()" color="light" slot="end">
+            <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list inset>
+        <ion-list-header>
+            <h4>Data Pokok</h4>
+        </ion-list-header>
+        <ion-item>
+            <ion-label>Nama</ion-label>
+            <ion-label slot="end">{{ nama | uppercase }}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Tgl. Penempatan</ion-label>
+            <ion-label slot="end">{{ tglMulai | date: "dd MMM yyyy" }}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Tgl. Jatuh Tempo</ion-label>
+            <ion-label slot="end">{{ tglJt | date: "dd MMM yyyy" }}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Nominal</ion-label>
+            <ion-label slot="end">Rp. {{ nominal | number: "1.0-0" }}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Suku Bunga ({{addon == 0 ? "Counter Rate" : "Special Rate"}})</ion-label>
+            <ion-label slot="end">{{ sb.sb + addon }}% p.a</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Total Bunga</ion-label>
+            <ion-label slot="end">Rp. {{ totBunga | number: "1.0-0" }}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Total Pajak</ion-label>
+            <ion-label slot="end">Rp. {{ totPajak | number: "1.0-0" }}</ion-label>
+        </ion-item>
+        <br />
+
+        <ion-list-header>
+            <h4>Jadwal Bunga Deposito</h4>
+        </ion-list-header>
+        <ion-item>
+            <ion-label><b>Tgl. Bunga</b></ion-label>
+            <ion-label><b>Jml. Hari</b></ion-label>
+            <ion-label><b>Bunga Bruto</b></ion-label>
+            <ion-label><b>Pajak</b></ion-label>
+            <ion-label><b>Bunga Net</b></ion-label>
+        </ion-item>
+        <ion-item *ngFor="let item of resultBunga">
+            <ion-label>{{ item.tgl | date: "dd MMM yyyy" }}</ion-label>
+            <ion-label>{{ item.hari }}</ion-label>
+            <ion-label>Rp. {{ item.bunga | number: "1.0-0" }}</ion-label>
+            <ion-label>Rp. {{ item.pajak | number: "1.0-0" }}</ion-label>
+            <ion-label>Rp. {{ item.bunga - item.pajak | number: "1.0-0" }}</ion-label>
+        </ion-item>
+    </ion-list>
+</ion-content>
+
+<!-- SHARE CONTENT -->
+<div *ngIf="dispShare" style="font-size: 14px; background-color: white;width: 720px;" #result id="result">
+    <div style="background-color: #3880ff;" class="p-2">
+        <div class="row">
+            <div class="col-9">
+                <h4 style="font-size: 1.875rem;">Simulasi Deposito {{ jw }} Bulan</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-3">
+        <h5 style="font-size: 1.5rem;">Data Pokok</h5>
+        <br />
+        <div class="row">
+            <div class="col-6">Nama</div>
+            <div class="col-6">{{ nama | uppercase }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Tgl. Penempatan</div>
+            <div class="col-6">{{ tglMulai | date: "dd MMM yyyy" }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Tgl. Jatuh Tempo</div>
+            <div class="col-6">{{ tglJt | date: "dd MMM yyyy" }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Nominal</div>
+            <div class="col-6">Rp. {{ nominal | number: "1.0-0" }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Suku Bunga ({{addon == 0 ? "Counter Rate" : "Special Rate"}})</div>
+            <div class="col-6">{{ this.sb.sb + addon }}% p.a</div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Total Bunga</div>
+            <div class="col-6">Rp. {{ totBunga | number: "1.0-0" }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <div class="col-6">Total Pajak</div>
+            <div class="col-6">Rp. {{ totPajak | number: "1.0-0" }}</div>
+            <div class="col-12">
+                <hr />
+            </div>
+        </div>
+
+        <h5 style="font-size: 1.5rem;">Jadwal Bunga Deposito</h5>
+        <br />
+        <div class="row">
+            <div class="col-2"><b>Tgl. Bunga</b></div>
+            <div class="col-2"><b>Jml. Hari</b></div>
+            <div class="col-3"><b>Bunga Bruto</b></div>
+            <div class="col-2"><b>Pajak</b></div>
+            <div class="col-3"><b>Bunga Net</b></div>
+            <div class="col-12">
+                <hr />
+            </div>
+
+            <ng-container *ngFor="let item of resultBunga">
+                <div class="col-2">{{ item.tgl | date: "dd MMM yyyy" }}</div>
+                <div class="col-2">{{ item.hari }}</div>
+                <div class="col-3">Rp. {{ item.bunga | number: "1.0-0" }}</div>
+                <div class="col-2">Rp. {{ item.pajak | number: "1.0-0" }}</div>
+                <div class="col-3">
+                    Rp. {{ item.bunga - item.pajak | number: "1.0-0" }}
+                </div>
+                <div class="col-12">
+                    <hr />
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<ion-button shape="round" (click)="share()" color="secondary" expand="full"><b>Share</b>
+</ion-button>

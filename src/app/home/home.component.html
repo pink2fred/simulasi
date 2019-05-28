@@ -1,0 +1,80 @@
+<ion-header>
+    <ion-toolbar class="text-center">
+        <!-- <ion-title>BPR PALU LOKADANA UTAMA</ion-title> -->
+        <img src="../../assets/icon/logo-bpr.png" />
+    </ion-toolbar>
+</ion-header><br />
+
+<ion-content>
+    <ion-badge *ngIf="!(existSbKrdPeg | async) || !(existSbKrdPens | async)" color="danger">
+        Suku bunga Kredit {{ ((existSbKrdPeg | async) ? "" : "Pegawai - ") + ((existSbKrdPens | async) ? "" : "Pensiun") }} belum diatur</ion-badge>
+    <br *ngIf="!(existSbKrdPeg | async) || !(existSbKrdPens | async)" />
+    <ion-badge *ngIf="!(existSbDepo1 | async) ||
+    !(existSbDepo3 | async) ||
+    !(existSbDepo6 | async)" color="danger">
+        Suku bunga Deposito {{ ((existSbDepo1 | async) ? "" : "1 Bulan - ") + ((existSbDepo3 | async) ? "" : "3 Bulan - ") + ((existSbDepo6 | async) ? "" : "6 Bulan") }} belum diatur</ion-badge>
+    <br *ngIf="!(existSbDepo1 | async) ||
+    !(existSbDepo3 | async) ||
+    !(existSbDepo6 | async)" />
+    <ion-item-group>
+        <ion-item-divider color="primary">
+            <ion-title>Simulasi Produk</ion-title>
+        </ion-item-divider>
+
+        <ion-grid>
+            <ion-row>
+                <ion-col size="3" class="text-center">
+                    <ion-button size="large" [disabled]="!(existSbKrdPeg | async)" href="/simulasi/kpeg" style="height: 64px;width: 64px;--padding-start: 0px;--padding-end: 0px">
+                        <img src="../../assets/icon/loan-calc.png" /> </ion-button><br />
+                    <ion-label style="white-space: normal;">Kredit Pegawai</ion-label>
+                </ion-col>
+                <ion-col size="3" class="text-center">
+                    <ion-button size="large" [disabled]="!(existSbKrdPens | async)" href="/simulasi/kpens" style="height: 64px;width: 64px;--padding-start: 0px;--padding-end: 0px">
+                        <img src="../../assets/icon/loan-calc.png" /> </ion-button><br />
+                    <ion-label style="white-space: normal;">Kredit Pensiun</ion-label>
+                </ion-col>
+                <ion-col size="3" class="text-center">
+                    <ion-button size="large" href="/simulasi/kpeg+" style="height: 64px;width: 64px;--padding-start: 0px;--padding-end: 0px">
+                        <img src="../../assets/icon/loan-calc.png" /> </ion-button><br />
+                    <ion-label style="white-space: normal;">Kredit Pegawai Plus</ion-label>
+                </ion-col>
+                <ion-col size="3" class="text-center">
+                    <ion-button size="large" [disabled]="!(existSbDepo1 | async) ||
+            !(existSbDepo3 | async) ||
+            !(existSbDepo6 | async)" href="/simulasi/depo" style="height: 64px;width: 64px;--padding-start: 0px;--padding-end: 0px">
+                        <img src="../../assets/icon/deposito-calc.png" /> </ion-button><br />
+                    <ion-label style="white-space: normal;">Deposito</ion-label>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-item-group>
+
+    <ion-item-group>
+        <ion-item-divider color="primary">
+            <ion-title>Parameter</ion-title>
+        </ion-item-divider>
+
+        <ion-grid>
+            <ion-row>
+                <ion-col size="3" class="text-center">
+                    <ion-button size="large" href="/param/sbKrd" style="height: 64px;width: 64px;--padding-start: 0px;--padding-end: 0px">
+                        <img src="../../assets/icon/loan-sb.png" /> </ion-button><br />
+                    <ion-label style="white-space: normal;">Suku Bunga Kredit</ion-label>
+                </ion-col>
+                <ion-col size="3" class="text-center">
+                    <ion-button size="large" href="/param/sbDepo" style="height: 64px;width: 64px;--padding-start: 0px;--padding-end: 0px">
+                        <img src="../../assets/icon/saving-sb.png" /> </ion-button><br />
+                    <ion-label style="white-space: normal;">Suku Bunga Deposito</ion-label>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-item-group>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <div class="text-center">
+            <a href="javascript:void(0)" (click)="presentAbout()">App Version : {{appVersion}}</a>
+        </div>
+    </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,38 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Riwayat Simulasi</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-item-sliding *ngFor="let item of histDepos | async">
+            <ion-item-options side="start">
+                <ion-item-option color="danger" style="width: 52px;" slot="icon-only" (click)="delete(item.id)">
+                    <ion-icon name="trash" style="height: 36px; width: 36px"></ion-icon>
+                </ion-item-option>
+            </ion-item-options>
+            <ion-item>
+                <ion-avatar style="height: 100px;width: 100px;">
+                    <img src="../../assets/icon/avatar.png" />
+                </ion-avatar>
+                <ion-label style="margin-left: 12px;">
+                    <h2>
+                        {{ item.nama == "" ? "- No Name -" : (item.nama | uppercase) }}
+                    </h2>
+                    <h3>{{ "Deposito " + item.jw + " Bulan" }}</h3>
+                    <p>Nominal : Rp. {{ item.nominal | number: "1.0-0" }}</p>
+                    <p>
+                        Suku Bunga : {{ item.sb + item.addon }}% p.a ({{ item.addon > 0 ? "Special Rate" : "Counter Rate" }})
+                    </p>
+                    <p>
+                        Bunga {{ isBoolean(item.pajak) ? "dikenakan pajak" : "tidak dikenakan pajak" }}
+                    </p>
+                </ion-label>
+            </ion-item>
+            <ion-item-options side="end">
+                <ion-item-option (click)="pilih(item)">Pilih</ion-item-option>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+</ion-content>

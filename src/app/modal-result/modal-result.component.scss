@@ -1,0 +1,28 @@
+::ng-deep .custom-modal-css .modal-wrapper {
+    height: 80%;
+    top: 10%;
+    position: absolute;
+    display: block;
+    width: 90%;
+}
+
+::ng-deep .text-center {
+    text-align: center;
+}
+
+::ng-deep .text-center .alert-wrapper .alert-head .alert-title {
+    text-align: center;
+    font-weight: bold;
+}
+
+::ng-deep div[scrollx="true"] {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    .scroll-item {
+        flex: 0 0 auto !important;
+    }
+}

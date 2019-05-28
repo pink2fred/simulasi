@@ -1,0 +1,51 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="home" color="primary"></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            Suku Bunga Kredit
+        </ion-title>
+    </ion-toolbar>
+</ion-header><br>
+
+<ion-content>
+    <h5 class="ml-2">Pilih jenis kredit untuk melihat</h5>
+    <ion-segment color="tertiary" (ionChange)="segmentChange($event)">
+        <ion-segment-button value="1">
+            <ion-label>Pegawai</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="2">
+            <ion-label>Pensiun</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="3">
+            <ion-label>Pegawai Plus</ion-label>
+        </ion-segment-button>
+    </ion-segment><br>
+
+    <ion-title *ngIf="sbLoans.length> 0 || newSb.length > 0">Suku Bunga {{jns== 1 ? "Kredit Pegawai" : jns== 2 ? "Kredit Pensiun" : "Kredit Pegawai Plus"}}</ion-title>
+    <div *ngIf="sbLoans.length> 0">
+        <ion-item *ngFor="let item of sbLoans; let i= index">
+            <ion-label style="width: 50px;">{{i == 0 ? 1 : sbLoans[i-1].jw + 1}}</ion-label>&nbsp;
+            <ion-label style="width: 30px">s/d</ion-label>&nbsp;
+            <ion-input appNextFocus tabindex="{{i+i}}" style="max-width: 50px;background-color: aqua;" type="number" [(ngModel)]="item.jw" (ngModelChange)="jwChange2(i)"></ion-input>&nbsp;
+            <ion-label> Bulan = </ion-label>&nbsp;
+            <ion-input appNextFocus tabindex="{{i+(i+1)}}" style="max-width: 70px;background-color: yellowgreen;" class="text-center" type="number" [(ngModel)]="item.sb">
+            </ion-input>&nbsp;
+            <ion-label>% flat / p.a</ion-label>
+        </ion-item>
+    </div>
+    <div *ngIf="newSb.length> 0">
+        <ion-item *ngFor="let item of newSb; let i= index">
+            <ion-label style="width: 50px;">{{sbLoans.length > 0 && i == 0 ? sbLoans[sbLoans.length-1].jw + 1 : i > 0 ? newSb[i-1].jw + 1 : 1}}</ion-label>&nbsp;
+            <ion-label style="width: 30px">s/d</ion-label>&nbsp;
+            <ion-input appNextFocus tabindex="{{sbLoans.length> 0 ? i+((sbLoans.length+i)*2) : i+i}}" style="max-width: 50px;background-color: aqua;" type="number" [(ngModel)]="item.jw" (ngModelChange)="jwChange(i)"></ion-input>
+            &nbsp;
+            <ion-label> Bulan = </ion-label>&nbsp;
+            <ion-input appNextFocus tabindex="{{sbLoans.length> 0 ? i+((sbLoans.length+i)*2)+1 : i+(i+1)}}" style="max-width: 70px;background-color: yellowgreen;" class="text-center" type="number" [(ngModel)]="item.sb">
+            </ion-input>&nbsp;
+            <ion-label>% flat / p.a</ion-label>&nbsp;&nbsp;
+        </ion-item><br>
+    </div>
+    <ion-button *ngIf="sbLoans.length> 0 || newSb.length > 0" shape="round" color="primary" (click)="update()" expand="full">Update</ion-button>
+</ion-content>

@@ -1,0 +1,7 @@
+{
+  "name": "simulasi",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

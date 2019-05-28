@@ -1,0 +1,29 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Tentang Aplikasi</ion-title>
+        <ion-button shape="round" (click)="closeModal()" color="light" slot="end">
+            <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-list-header>
+            <h3>{{appName}}</h3>
+        </ion-list-header>
+        <ion-list-header>
+            <h5>Versi saat ini : {{appVerNum}}</h5>
+        </ion-list-header><br>
+
+        <ion-item-group *ngFor="let item of versionLog">
+            <ion-item-divider>
+                <ion-label style="font-size: 16px;" color="primary">Yang baru di versi {{item.versi + " (Update terakhir " + item.tgl}})</ion-label>
+            </ion-item-divider>
+
+            <ion-item *ngFor="let log of item.versiLog">
+                <ion-label class="ml-2" style="font-size: 14px;">{{log.id + ". " + log.desc}}</ion-label>
+            </ion-item>
+        </ion-item-group>
+    </ion-list>
+</ion-content>

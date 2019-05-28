@@ -1,0 +1,81 @@
+<ion-header>
+    <ion-toolbar color="tertiary">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="home"></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            Simulasi Kredit Pensiun
+        </ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="presentHistory()">
+                <ion-icon name="timer"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-item>
+        <ion-label position="floating">Nama</ion-label>
+        <ion-input appNextFocus tabindex="0" name="inpNama" class="ion-text-uppercase" [(ngModel)]="nama"></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="floating">Tanggal Mulai</ion-label>
+        <ion-datetime name="dpMulai" display-format="D MMM YYYY" max="2100-12-31" picker-format="MMM DD YYYY" [(ngModel)]="tglMulai">
+        </ion-datetime>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="floating">Tanggal Lahir</ion-label>
+        <ion-datetime appNextFocus tabindex="1" name="dpLhr" display-format="D MMM YYYY" picker-format="MMM DD YYYY" [max]="maxTglLhr" [(ngModel)]="tglLhr">
+        </ion-datetime>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="floating">Asuransi</ion-label>
+        <ion-select appNextFocus tabindex="2" name="inpAss" (ionChange)="getJwMax($event.target.value)" interface="action-sheet" [(ngModel)]="jnsAss">
+            <ion-select-option value="askrida">Askrida</ion-select-option>
+            <ion-select-option value="taspen">Taspen Life</ion-select-option>
+            <ion-select-option value="askrindo">Askrindo</ion-select-option>
+            <ion-select-option value="avrist">Avrist</ion-select-option>
+        </ion-select>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="floating">Jumlah Gaji</ion-label>
+        <ion-input appNextFocus tabindex="3" name="inpGaji" type="number" [(ngModel)]="gaji"></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="floating">Persentase Angsuran dari Gaji (%)</ion-label>
+        <ion-input appNextFocus tabindex="4" name="inpGajiPersen" type="number" (ionFocus)="isEditPersen= true" (ionBlur)="isEditPersen= false" (ionChange)="calcPlafon($event.target.value)" [(ngModel)]="persenGaji">
+        </ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="floating">Max. Jangka Waktu (Bulan)</ion-label>
+        <ion-input appNextFocus tabindex="5" name="inpJw" type="number" (ionFocus)="isEditJw= true" (ionBlur)="isEditJw= false" (ionChange)="calcAngs(2, $event.target.value)" [(ngModel)]="jw">
+        </ion-input>
+    </ion-item><br />
+
+    <ion-item>
+        <ion-label position="floating">Plafon Pinjaman</ion-label>
+        <ion-input appNextFocus tabindex="6" type="number" name="inpPlf" (ionFocus)="isEditPlf= true" (ionBlur)="isEditPlf= false" (ionChange)="calcAngs(3, $event.target.value)" [(ngModel)]="plafon"></ion-input>
+    </ion-item><br />
+
+    <ion-item>
+        <ion-label style="text-align: right">Pelunasan RO/TO (Jika ada)</ion-label>
+        <ion-toggle appNextFocus tabindex="7" slot="end" [(ngModel)]="isLunas" color="primary"></ion-toggle>
+    </ion-item>
+
+    <ion-item *ngIf="isLunas">
+        <ion-label position="floating">Nilai Pelunasan</ion-label>
+        <ion-input appNextFocus tabindex="{{isLunas ? 8 : -1}}" type="number" name="inpLns" [(ngModel)]="lunas"></ion-input>
+    </ion-item><br />
+
+    <br />
+    <ion-button shape="round" [disabled]="btnDisabled()" (click)="presentConfirm()" color="primary" expand="full">Hitung</ion-button>
+    <ion-button shape="round" [disabled]="btnDisabled()" (click)="simpan()" color="secondary" expand="full">Simpan ke Riwayat
+    </ion-button>
+</ion-content>

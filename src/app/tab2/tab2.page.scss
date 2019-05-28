@@ -1,0 +1,19 @@
+::ng-deep .alert-title-center .alert-wrapper .alert-head .alert-title {
+    text-align: center;
+}
+
+::ng-deep .custom-input.sc-ion-input-md-h {
+    --padding-start: 0px !important;
+}
+
+::ng-deep .confirm-alert {
+    --max-width: 400px !important;
+    --width: 365px !important;
+    button.secondary {
+        background-color: #f4f5f8;
+    }
+    button.primary {
+        background-color: #3880ff;
+        color: white;
+    }
+}
